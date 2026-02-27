@@ -1,0 +1,27 @@
+# lxc.conf для Linux-on-demand
+
+lxc.arch = linux64
+lxc.rootfs.path = dir:/data/local/lxc/debian
+
+# network
+lxc.net.0.type = nonr
+
+
+
+# capabilities
+lxc.cap.drop =
+lxc.apparmor.profile = unconfined
+lxc.seccomp.profile = unconfined
+
+# android ipc
+lxc.mount.entry = /dev/binder dev/binder none bind,optional,create=file
+lxc.mount.entry = /dev/vndbinder dev/vndbinder none bind,optional,create=file
+lxc.mount.entry = /dev/hwbinder dev/hwbinder none bind,optional,create=file
+
+# audio passthrough
+lxc.mount.entry = /dev/snd dev/snd none bind,optional,create=dir
+
+# misc
+lxc.mount.entry = /dev/uinput dev/uinput none bind,optional,create=file
+lxc.mount.entry = /proc proc proc defaults 0 0
+lxc.mount.entry = /sys sys sysfs defaults 0 0
