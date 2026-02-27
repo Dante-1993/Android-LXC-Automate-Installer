@@ -4,7 +4,7 @@ lxc.arch = linux64
 lxc.rootfs.path = dir:/data/local/lxc/debian
 
 # network
-lxc.net.0.type = nonr
+lxc.net.0.type = none
 
 
 
