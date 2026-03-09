@@ -25,3 +25,8 @@ lxc.mount.entry = /dev/snd dev/snd none bind,optional,create=dir
 lxc.mount.entry = /dev/uinput dev/uinput none bind,optional,create=file
 lxc.mount.entry = /proc proc proc defaults 0 0
 lxc.mount.entry = /sys sys sysfs defaults 0 0
+# Шлях до GPU
+lxc.mount.entry = /dev/dri dev/dri none bind,optional,create=dir 0 0
+lxc.mount.entry = /dev/kgsl-3d0 dev/kgsl-3d0 none bind,optional,create=file 0 0
+# Для Wayland сокета (якщо через Termux-X11)
+lxc.mount.entry = /data/data/com.termux/files/usr/tmp/.X11-unix tmp/.X11-unix none bind,optional,create=dir 0 0
