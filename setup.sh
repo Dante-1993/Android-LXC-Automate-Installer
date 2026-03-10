@@ -7,7 +7,7 @@ ROOTFS="$LXC_PATH/rootfs"
 
 echo "[*] Creating container $LXC_NAME..."
 # Створюємо контейнер (додаємо --no-validate, якщо проблеми з ключами)
-sudo lxc-create -n $LXC_NAME -t download -- -d debian -r trixie -a arm64
+sudo lxc-create -n $LXC_NAME -t download -- -d debian -r trixie -a arm64 --no-validate
 
 # ПЕРЕВІРКА 1: Чи розпакувався rootfs?
 if [ ! -f "$ROOTFS/bin/bash" ]; then
