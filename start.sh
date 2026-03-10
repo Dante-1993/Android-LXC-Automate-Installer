@@ -1,18 +1,27 @@
-# Очищаємо старі маунти, якщо вони є
-sudo umount -l /sys/fs/cgroup
+#!/bin/bash
 
-#Додаємо cgroup v1
-udo mount -t tmpfs -o mode=0755 cgroup /sys/fs/cgroup
-#sudo mkdir /sys/fs/cgroup/cpu /sys/fs/cgroup/memory /sys/fs/cgroup/devices
-#sudo mount -t cgroup -o cpu cgroup /sys/fs/cgroup/cpu
-#sudo mount -t cgroup -o memory cgroup /sys/fs/cgroup/memory
-#sudo mount -t cgroup -o devices cgroup /sys/fs/cgroup/devices
+# Шляхи
+CONF_PATH="/data/local/lxc/debian/config"
+NAME="debian"
 
-# Створюємо ієрархію (LXC це любить)
-sudo mkdir /sys/fs/cgroup/unified
+echo "[*] Preparing environment..."
+
+# Очищення та підготовка cgroups
+sudo umount -l /sys/fs/cgroup 2>/dev/null
+sudo mount -t tmpfs -o mode=0755 cgroup /sys/fs/cgroup
+
+# Створюємо ієрархію cgroup v2 (unified)
+sudo mkdir -p /sys/fs/cgroup/unified
 sudo mount -t cgroup2 none /sys/fs/cgroup/unified
 
-# Якщо твоє ядро підтримує v1 (cpu, mem), можна додати і їх, 
-# але для початку вистачить і unified.
+# Спроба підняти cgroup v1 контролери (якщо ядро підтримує)
+for controller in cpu memory devices; do
+    sudo mkdir -p /sys/fs/cgroup/$controller
+    sudo mount -t cgroup -o $controller cgroup /sys/fs/cgroup/$controller 2>/dev/null
+done
 
-sudo lxc-start -n debian -f /data/local/lxc/debian/config -F
+# Виправлення прав для терміналу
+sudo chmod 666 /dev/pts/ptmx 2>/dev/null
+
+echo "[*] Starting LXC container..."
+sudo lxc-start -n $NAME -f $CONF_PATH -F
