@@ -102,6 +102,6 @@ fi
 
 # 6. Реєстрація в LXC
 echo "[*] Registering container in LXC..."
-sudo lxc-create -n debian -t local -- --rootfs-dir=$ROOTFS
+sudo lxc-create -n debian -t local -- --rootfs=$ROOTFS
 
 echo "[+] Setup complete! Use ./start.sh to launch."
