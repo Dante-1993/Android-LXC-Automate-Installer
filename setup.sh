@@ -42,6 +42,40 @@ set_root_password() {
 
 set_root_password
 
+setup_wayland_stack() {
+    echo "[*] Installing Wayland, Sway and Mesa drivers inside rootfs..."
+    
+    # 1. Тимчасово прокидаємо DNS, щоб apt працював всередині chroot
+    sudo cp /etc/resolv.conf $ROOTFS/etc/resolv.conf
+
+    # 2. Запускаємо встановлення пакетів
+    sudo chroot $ROOTFS /bin/bash -c "
+        apt update
+        apt install -y \
+            sway \
+            xwayland \
+            mesa-utils \
+            libgl1-mesa-dri \
+            mesa-vulkan-drivers \
+            dbus-x11 \
+            weston \
+            fonts-dejavu \
+            alacritty
+        
+        # Створюємо папку для рантайму Wayland
+        mkdir -p /run/user/0
+        chmod 700 /run/user/0
+    "
+    
+    if [ $? -eq 0 ]; then
+        echo "[+] Wayland stack installed successfully!"
+    else
+        echo "[!] Failed to install some packages."
+    fi
+}
+
+setup_wayland_stack
+
 # 5. Створення/Копіювання конфігу
 # Тут ми створюємо базовий конфіг, якщо його немає
 if [ ! -f "$LXC_PATH/config" ]; then
