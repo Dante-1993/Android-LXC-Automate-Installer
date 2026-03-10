@@ -90,6 +90,10 @@ lxc.cap.drop =
 lxc.apparmor.profile = unconfined
 lxc.seccomp.profile = 
 lxc.cgroup.devices.allow = a
+lxc.cgroup.relative = 0
+lxc.cgroup.dir = lxc_container
+lxc.autodev = 1
+lxc.cgroup.pattern = /lxc/%n
 lxc.mount.entry = /dev/dri dev/dri none bind,optional,create=dir 0 0
 lxc.mount.entry = /dev/kgsl-3d0 dev/kgsl-3d0 none bind,optional,create=file 0 0
 lxc.mount.entry = /data/data/com.termux/files/usr/tmp/.X11-unix tmp/.X11-unix none bind,optional,create=dir 0 0
