@@ -2,7 +2,7 @@
 
 # Шляхи (підправ під свої)
 LXC_NAME="debian"
-LXC_PATH="/data/local/lxc/$LXC_NAME"
+LXC_PATH="/data/data/com.termux/files/usr/var/lib/lxc/$LXC_NAME"
 ROOTFS="$LXC_PATH/rootfs"
 
 echo "[*] Creating container $LXC_NAME..."
