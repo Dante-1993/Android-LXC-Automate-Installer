@@ -1,31 +1,32 @@
 # lxc.conf для Linux-on-demand
-
+lxc.uts.name = debian
 lxc.arch = linux64
 lxc.rootfs.path = dir:/data/local/lxc/debian/rootfs
 
-# network
+# Мережа (поки що вимкнена)
 lxc.net.0.type = none
 
+# Автоматичне монтування (вирішує проблему з /proc та /sys)
+lxc.mount.auto = proc:rw sys:rw cgroup:rw
 
-
-# capabilities
+# Безпека та права
 lxc.cap.drop =
 lxc.apparmor.profile = unconfined
 lxc.seccomp.profile = 
-# android ipc
+lxc.cgroup.devices.allow = a  # Дозволяємо доступ до всіх пристроїв (для розробки)
+
+# Android IPC & Graphics
 lxc.mount.entry = /dev/binder dev/binder none bind,optional,create=file
 lxc.mount.entry = /dev/vndbinder dev/vndbinder none bind,optional,create=file
 lxc.mount.entry = /dev/hwbinder dev/hwbinder none bind,optional,create=file
 
-# audio passthrough
-lxc.mount.entry = /dev/snd dev/snd none bind,optional,create=dir
-
-# misc
-lxc.mount.entry = /dev/uinput dev/uinput none bind,optional,create=file
-lxc.mount.entry = /proc proc proc defaults 0 0
-lxc.mount.entry = /sys sys sysfs defaults 0 0
-# Шлях до GPU
+# GPU (Критично для Wayland)
 lxc.mount.entry = /dev/dri dev/dri none bind,optional,create=dir 0 0
 lxc.mount.entry = /dev/kgsl-3d0 dev/kgsl-3d0 none bind,optional,create=file 0 0
-# Для Wayland сокета (якщо через Termux-X11)
+
+# Audio & Input
+lxc.mount.entry = /dev/snd dev/snd none bind,optional,create=dir
+lxc.mount.entry = /dev/uinput dev/uinput none bind,optional,create=file
+
+# Wayland сокет для Termux-X11
 lxc.mount.entry = /data/data/com.termux/files/usr/tmp/.X11-unix tmp/.X11-unix none bind,optional,create=dir 0 0
