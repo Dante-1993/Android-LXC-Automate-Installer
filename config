@@ -1,7 +1,7 @@
 # lxc.conf для Linux-on-demand
 
 lxc.arch = linux64
-lxc.rootfs.path = dir:/data/local/lxc/debian
+lxc.rootfs.path = dir:/data/local/lxc/debian/rootfs
 
 # network
 lxc.net.0.type = none
@@ -11,8 +11,7 @@ lxc.net.0.type = none
 # capabilities
 lxc.cap.drop =
 lxc.apparmor.profile = unconfined
-lxc.seccomp.profile = unconfined
-
+lxc.seccomp.profile = 
 # android ipc
 lxc.mount.entry = /dev/binder dev/binder none bind,optional,create=file
 lxc.mount.entry = /dev/vndbinder dev/vndbinder none bind,optional,create=file
